@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HealthSync</string>
+    <string name="todo">TODO</string>
+    <string name="log_in">Log In</string>
+    <string name="phone_number">  Phone Number</string>
+    <string name="password">  Password</string>
+    <string name="log_up">Log Up</string>
+    <string name="registration">Registration</string>
+    <string name="full_name">  Full Name</string>
+    <string name="example_mail_com">  example@mail.com</string>
+    <string name="sign_up">Sign Up</string>
+</resources>
