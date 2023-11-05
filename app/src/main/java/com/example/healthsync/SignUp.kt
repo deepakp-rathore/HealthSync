@@ -23,23 +23,16 @@ class SignUp : AppCompatActivity() {
         val etpassword = findViewById<TextInputEditText>(R.id.password)
         val signbtn = findViewById<Button>(R.id.signup)
 
-
-
         signbtn.setOnClickListener{
             val name = etname.text.toString()
             val email = etemail.text.toString()
             val phone = etphone.text.toString()
             val password = etpassword.text.toString()
 
-            val user = User(name,email,phone,password)
-            database = FirebaseDatabase.getInstance().getReference("Users")
-
-            database.child(phone).setValue(user).addOnSuccessListener {
-                Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
-                val inputOneIntent = Intent(this, InputPage1::class.java)
-                startActivity(inputOneIntent)
-            }.addOnSuccessListener {
-                Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show()
+            if( name.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() && password.isNotEmpty()){
+                registerUser(name, email, phone, password)
+            }else{
+                Toast.makeText(this,"Please fill all fields ", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -48,7 +41,28 @@ class SignUp : AppCompatActivity() {
             val loginIntent = Intent(this, LogIn::class.java)
             startActivity(loginIntent)
         }
+    }
+    private fun registerUser(name: String, email: String, phone: String, password: String) {
+
+        val user = User(name,email,phone,password)
+        database = FirebaseDatabase.getInstance().getReference("Users")
+
+        database.child(phone).get().addOnSuccessListener {
+            if(it.exists()){
+                Toast.makeText(this, "Mobile number already exists ", Toast.LENGTH_SHORT).show()
+            }else{
+                database.child(phone).setValue(user).addOnSuccessListener {
+                    Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show()
+                    val inputOneIntent = Intent(this, InputPage1::class.java)
+                    startActivity(inputOneIntent)
+                }.addOnSuccessListener {
+                    Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
 
     }
+
+
 }
